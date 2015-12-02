@@ -1,0 +1,24 @@
+{
+  "name": "tf-util",
+  "version": "0.1.0",
+  "description": "General non-mud specific utility functions for TinyFugue",
+  "main": "main.tf",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/huntwj/tf-util.git"
+  },
+  "keywords": [
+    "tf",
+    "util",
+    "TinyFugue"
+  ],
+  "author": "Wil Hunt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huntwj/tf-util/issues"
+  },
+  "homepage": "https://github.com/huntwj/tf-util#readme"
+}
