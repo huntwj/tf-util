@@ -10,7 +10,6 @@
     /let _varName=%{1}%;\
     /let _globalVar=$[util_globalVarName(_varName)]%;\
     /let _defaultValue=%{2}%;\
-;    /echo Declaring variable %{_varName} (%{_globalVar}) with default %{_defaultValue}%;\
     /test %_globalVar := _defaultValue
 
 ;
@@ -82,8 +81,12 @@
 ;       %{TF_NPM_ROOT}/data/variables/Elowen.tf
 /def util_saveVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
-    /listvar -mregexp ^var_user_ %| /writefile %{_filename}
+    /listvar -mregexp ^var_user_ %| /writefile %{_filename}%;\
+    /echo Saved user variables into '%{_filename}'
 
+;
+; Get the fully qualified filename from a simple name
+;
 /def -i util_customVarFilename = \
     /let _filename=%{TF_NPM_ROOT}/data/variables/%{1}.tf%;\
     /return _filename
