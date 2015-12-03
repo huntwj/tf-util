@@ -1,6 +1,7 @@
 ;;
 ;; General variable utilities
 ;;
+/loaded __tf_util_variables__
 
 /require textutil.tf
 
