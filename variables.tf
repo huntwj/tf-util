@@ -37,6 +37,12 @@
     /let _varName=%{1}%;\
     /let _value=%{-1}%;\
     /let _userVarName=$[util_userVarName(_varName)]%;\
+    /let _userVarValue=%;\
+    /let _userVarValue=%;\
+    /test _userVarValue := %{_userVarName}%;\
+    /if (_value !~ _userVarValue) \
+        /test util_fireEvent(strcat("var.change_", _varName), _userVarValue, _value)%;\
+    /endif%;\
     /test %{_userVarName} := _value
 
 ;
@@ -108,4 +114,20 @@
     /let _varName=%{1}%;\
     /let _results=$(/listvar -msimple -s %_varName)%;\
     /return _results !~ ""
+
+;
+; Watch for changes to a variable
+;
+/def util_watchVar = \
+    /let _varName=%{1}%;\
+    /let _callback=%{2}%;\
+    /util_addListener var.change_%{_varName} %{_callback}
+
+;
+; Remove a watch callback for a variable
+;
+/def util_unwatchVar = \
+    /let _varName=%{1}%;\
+    /let _callback=%{2}%;\
+    /util_removeListener var.change_%{_varName} %{_callback}
 
