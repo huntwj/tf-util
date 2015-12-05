@@ -24,10 +24,10 @@
     /let _varName=%{1}%;\
     /let _userVarName=$[util_userVarName(_varName)]%;\
     /if (util_isSet(_userVarName)) \
-        /return %{_userVarName}%;\
+        /result %{_userVarName}%;\
     /endif%;\
     /let _globalVar=$[util_globalVarName(_varName)]%;\
-    /return %{_globalVar}
+    /result %{_globalVar}
 
 ;
 ; Set a "dynamic variable". This should only change the top scope. Currently
@@ -52,7 +52,7 @@
 /def -i util_globalVarName = \
     /let _varName=%{1}%;\
     /let _globalName=var_global_$[textencode(_varName)]%;\
-    /return _globalName
+    /result _globalName
 
 ;
 ; Convert a user-land variable name into its actual user variable name.
