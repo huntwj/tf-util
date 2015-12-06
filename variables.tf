@@ -3,6 +3,7 @@
 ;;
 /loaded __tf_util_variables__
 
+/require tf-util/events.tf
 /require textutil.tf
 
 ; These functions provide variables that can have global defaults as well as
