@@ -38,3 +38,8 @@
         /let _count=$(/length %{_list})%;\
     /done
 
+/def -h"DISCONNECT {*}" util_t_notifyDisconnect = \
+    /util_fireEvent connection.disconnected %{*} %{P0}
+
+/def -h"CONNECT {*}" util_t_notifyConnect = \
+    /util_fireEvent connection.connected %{*} %{P0}
