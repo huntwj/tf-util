@@ -3,12 +3,28 @@
 ;;
 /loaded __tf_util_variables__
 
+;
+; Commands / functions:
+;
+; /declareVar <variableName> <defaultValue>
+; getVar(<variableName>)
+; setVar(<variableName>, <newValue>)
+;
+; isSet(<variableName>)
+; /watchVar <variableName> <callbackMacro>
+; /unwatchVar <variableName> <callbackMacro>
+;
+; Save and Load User-Land Variables
+; saveVars <filename>
+; loadVars <filename>
+
 /require tf-util/events.tf
 /require textutil.tf
 
 ; These functions provide variables that can have global defaults as well as
 ; user-specific overrides.
-/def util_declareVar = \
+/def declareVar = /util_declareVar %{*}
+/def -i util_declareVar = \
     /let _varName=%{1}%;\
     /let _globalVar=$[util_globalVarName(_varName)]%;\
     /let _defaultValue=%{2}%;\
@@ -21,7 +37,8 @@
 ; TODO: Make this work with arbitrary lookup depth based on the value of some
 ;       config variable.
 ;
-/def util_getVar = \
+/def getVar = /util_getVar %{*}
+/def -i util_getVar = \
     /let _varName=%{1}%;\
     /let _userVarName=$[util_userVarName(_varName)]%;\
     /if (util_isSet(_userVarName)) \
@@ -34,7 +51,8 @@
 ; Set a "dynamic variable". This should only change the top scope. Currently
 ; that is "user".
 ;
-/def util_setVar = \
+/def setVar = /util_setVar %{*}
+/def -i util_setVar = \
     /let _varName=%{1}%;\
     /let _value=%{-1}%;\
     /let _userVarName=$[util_userVarName(_varName)]%;\
@@ -87,7 +105,8 @@
 ; /util_saveVars Elowen
 ;    -- saves the variables stored in the "user" scope to the file
 ;       %{TF_NPM_ROOT}/data/variables/Elowen.tf
-/def util_saveVars = \
+/def saveVars = /util_saveVars %{*}
+/def -i util_saveVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
     /listvar -mregexp ^var_user_ %| /writefile %{_filename}%;\
     /echo Saved user variables into '%{_filename}'
@@ -111,7 +130,8 @@
 ;
 ; Determine if a variable with the given name exists.
 ;
-/def util_isSet = \
+/def isSet = /return util_isSet({1})
+/def -i util_isSet = \
     /let _varName=%{1}%;\
     /let _results=$(/listvar -msimple -s %_varName)%;\
     /return _results !~ ""
@@ -119,7 +139,8 @@
 ;
 ; Watch for changes to a variable
 ;
-/def util_watchVar = \
+/def watchVar = /util_watchVar %{*}
+/def -i util_watchVar = \
     /let _varName=%{1}%;\
     /let _callback=%{2}%;\
     /util_addListener var.change_%{_varName} %{_callback}
@@ -127,7 +148,8 @@
 ;
 ; Remove a watch callback for a variable
 ;
-/def util_unwatchVar = \
+/def unwatchVar = /util_unwatchVar %{*}
+/def -i util_unwatchVar = \
     /let _varName=%{1}%;\
     /let _callback=%{2}%;\
     /util_removeListener var.change_%{_varName} %{_callback}
