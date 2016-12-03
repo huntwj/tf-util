@@ -5,14 +5,16 @@
 
 /load lisp.tf
 
-/def util_addListener = \
+/def event_addListener = /util_addListener
+/def -i util_addListener = \
     /let _event=$[textencode({1})]%;\
     /let _callback=$[textencode({2})]%;\
     /let _tmp=%;\
     /test _tmp := strcat(util_event_%{_event}, ' ', _callback)%;\
     /set util_event_%{_event}=$(/unique %{_tmp})
 
-/def util_removeListener = \
+/def event_removeListener = /util_removeListener %{*}
+/def -i util_removeListener = \
     /let _event=$[textencode({1})]%;\
     /let _callback=$[textencode({2})]%;\
     /let _tmp=%;\
@@ -24,7 +26,8 @@
         /set util_event_%{_event}=%{_newVal}%;\
     /endif
 
-/def util_fireEvent = \
+/def event_fire = /util_fireEvent %{*}
+/def -i util_fireEvent = \
     /let _event=$[textencode({1})]%;\
     /let _params=%{-1}%;\
     /let _list=%;\
@@ -39,8 +42,8 @@
     /done
 
 /def -h"DISCONNECT {*}" util_t_notifyDisconnect = \
-    /util_fireEvent connection.disconnected %{*} %{P0}
+    /event_fire connection.disconnected %{*} %{P0}
 
 /def -h"CONNECT {*}" util_t_notifyConnect = \
-    /util_fireEvent connection.connected %{*} %{P0}
+    /event_fire connection.connected %{*} %{P0}
 

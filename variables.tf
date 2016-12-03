@@ -9,6 +9,7 @@
 ; /declareVar <variableName> <defaultValue>
 ; getVar(<variableName>)
 ; setVar(<variableName>, <newValue>)
+;   -- Fires change notifications to callbacks registered with /watchVar
 ;
 ; isSet(<variableName>)
 ; /watchVar <variableName> <callbackMacro>
@@ -37,7 +38,9 @@
 ; TODO: Make this work with arbitrary lookup depth based on the value of some
 ;       config variable.
 ;
-/def getVar = /util_getVar %{*}
+/def getVar = /result util_getVar({1})
+
+; Deprecated
 /def -i util_getVar = \
     /let _varName=%{1}%;\
     /let _userVarName=$[util_userVarName(_varName)]%;\
@@ -50,6 +53,8 @@
 ;
 ; Set a "dynamic variable". This should only change the top scope. Currently
 ; that is "user".
+;
+; Fires a change notification to all callbacks registered with /watchVar
 ;
 /def setVar = /util_setVar %{*}
 /def -i util_setVar = \
@@ -87,13 +92,15 @@
 ; /util_loadVars Elowen
 ;    -- loads the variables stored in %{TF_NPM_ROOT}/data/variables/Elowen.tf
 ;
-/def util_loadVars = \
+/def loadVars = /util_loadVars %{*}
+/def -i util_loadVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
     /let _handle=$[tfopen(_filename,"r")]%;\
     /if (_handle != -1) \
         /util_unset $(/listvar -mregexp -s ^var_user_)%;\
         /test tfclose(_handle)%;\
         /load -q %{_filename}%;\
+        /event_fire var.loaded %{1} %{filename}%;\
         /echo Loaded user variables from '%{_filename}'%;\
     /else \
         /echo Could not open file '%{_filename}'. Load aborted.%;\
@@ -109,6 +116,7 @@
 /def -i util_saveVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
     /listvar -mregexp ^var_user_ %| /writefile %{_filename}%;\
+    /event_fire var.saved %{1} %{_filename}%;\
     /echo Saved user variables into '%{_filename}'
 
 ;
