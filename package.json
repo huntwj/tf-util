@@ -2,7 +2,7 @@
   "name": "tf-util",
   "version": "0.1.0",
   "description": "General non-mud specific utility functions for TinyFugue",
-  "main": "main.tf",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
