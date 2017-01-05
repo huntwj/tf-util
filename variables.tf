@@ -24,7 +24,7 @@
 
 ; These functions provide variables that can have global defaults as well as
 ; user-specific overrides.
-/def declareVar = /util_declareVar %{*}
+/def declareVar = /test util_declareVar({1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})
 /def -i util_declareVar = \
     /let _varName=%{1}%;\
     /let _globalVar=$[util_globalVarName(_varName)]%;\
@@ -56,7 +56,8 @@
 ;
 ; Fires a change notification to all callbacks registered with /watchVar
 ;
-/def setVar = /util_setVar %{*}
+/def setVar = /test util_setVar({1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})
+/def setVar = /test util_setVar({1}, {-1})
 /def -i util_setVar = \
     /let _varName=%{1}%;\
     /let _value=%{-1}%;\
@@ -65,6 +66,9 @@
     /let _userVarValue=%;\
     /test _userVarValue := %{_userVarName}%;\
     /if (_value !~ _userVarValue) \
+;        /echo _varName: %{_varName}%;\
+;        /echo _userVarValue: '%{_userVarValue}'%;\
+;        /echo _value: '%{_value}'%;\
         /test util_fireEvent(strcat("var.change_", _varName), _userVarValue, _value)%;\
     /endif%;\
     /test %{_userVarName} := _value
@@ -100,7 +104,7 @@
         /util_unset $(/listvar -mregexp -s ^var_user_)%;\
         /test tfclose(_handle)%;\
         /load -q %{_filename}%;\
-        /event_fire var.loaded %{1} %{filename}%;\
+        /test event_fire("var.loaded", {1}, {_filename}%;\
         /echo Loaded user variables from '%{_filename}'%;\
     /else \
         /echo Could not open file '%{_filename}'. Load aborted.%;\
@@ -116,7 +120,7 @@
 /def -i util_saveVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
     /listvar -mregexp ^var_user_ %| /writefile %{_filename}%;\
-    /event_fire var.saved %{1} %{_filename}%;\
+    /test event_fire("var.saved", {1}, {_filename}%;\
     /echo Saved user variables into '%{_filename}'
 
 ;
