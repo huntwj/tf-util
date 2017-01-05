@@ -30,6 +30,14 @@
 /def -i util_fireEvent = \
     /let _event=$[textencode({1})]%;\
     /let _params=%{-1}%;\
+    /let _p1=%{2}%;\
+    /let _p2=%{3}%;\
+    /let _p3=%{4}%;\
+    /let _p4=%{5}%;\
+    /let _p5=%{6}%;\
+    /let _p6=%{7}%;\
+    /let _p7=%{8}%;\
+    /let _p8=%{9}%;\
     /let _list=%;\
     /test _list := util_event_%{_event}%;\
     /let _count=$(/length %{_list})%;\
@@ -37,7 +45,8 @@
         /let _callback=$(/car %{_list})%;\
         /let _list=$(/cdr %{_list})%;\
         /test _callback := textdecode(_callback)%;\
-        /%{_callback} %{_params}%;\
+;        /%{_callback} %{_params}%;\
+        /test %{_callback}(_p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8)%;\
         /let _count=$(/length %{_list})%;\
     /done
 
