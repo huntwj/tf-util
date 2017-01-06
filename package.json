@@ -1,6 +1,6 @@
 {
   "name": "tf-util",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "General non-mud specific utility functions for TinyFugue",
   "main": "index.js",
   "scripts": {
