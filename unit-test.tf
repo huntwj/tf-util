@@ -55,11 +55,11 @@
         /test tfunit_assertFailed(_expected, _observed, _message)%;\
     /endif
 
-/def tfunit_assertSuccess = \
+/def -i tfunit_assertSuccess = \
     /let _count=tfunit.currentTest.assertCount%;\
     /test setVar(_count, getVar(_count)+1)
 
-/def tfunit_assertFailed = \
+/def -i tfunit_assertFailed = \
     /let _aCount=tfunit.currentTest.assertCount%;\
     /let _fCount=tfunit.currentTest.failCount%;\
     /let _failMsgs=tfunit.currentTest.failMessages%;\
@@ -70,7 +70,7 @@
 
 /util_watchVar tfunit.runGroup tfunit_groupChanged
 
-/def tfunit_groupChanged = \
+/def -i tfunit_groupChanged = \
 ;    /echo group changed: '%{1}' -> '%{2}'%;\
     /let _group=%{1}%;\
     /let _newGroup=%{2}%;\
@@ -119,7 +119,7 @@
     /test setVar("tfunit.currentTest.name", _test)%;\
     /test setVar("tfunit.currentTest.failMessages", "")
 
-/def tfunit_dumpReasons = \
+/def -i tfunit_dumpReasons = \
 ;    /echo Reasons: %{*}%;\
     /while ({#}) \
         /let _reason=$[textdecode({1})]%;\
