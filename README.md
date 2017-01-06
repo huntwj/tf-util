@@ -110,13 +110,13 @@ undefined.
 
 ## list-macros.tf
 
-## loader.tf
-
-## logging.tf
-
 - `list_macros(regex)`
 
   Return a space-delimited list of macros matching the given regular expression.
+
+## loader.tf
+
+## logging.tf
 
 ## redis.tf
 
