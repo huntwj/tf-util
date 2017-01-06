@@ -54,7 +54,7 @@
 ;    /if (assert(_endIdx != -1, "Invalid dequeue data structure."))\
 ;        /result ""%;\
 ;    /endif%;\
-    /let _retVal=$[substr(_queueData, 1, _endIdx - 1)]%;\
+    /let _retVal=$[textdecode(substr(_queueData, 1, _endIdx - 1))]%;\
     /let _newQueueData=$[substr(_queueData, _endIdx)]%;\
     /test setVar(_queueName, _newQueueData)%;\
     /result _retVal
@@ -70,7 +70,7 @@
 ;    /if (assert(_endIdx != -1, "Invalid dequeue data structure."))\
 ;        /result ""%;\
 ;    /endif%;\
-    /let _retVal=$[substr(_queueData, _startIdx + 1, strlen(_queueData) - _startIdx - 2)]%;\
+    /let _retVal=$[textdecode(substr(_queueData, _startIdx + 1, strlen(_queueData) - _startIdx - 2))]%;\
     /let _newQueueData=$[substr(_queueData, 0, _startIdx + 1)]%;\
     /test setVar(_queueName, _newQueueData)%;\
     /result _retVal
@@ -123,6 +123,25 @@
     /test tfunit_assertStrEqual("first", _first, "New queue should be empty.")%;\
     /let _len=$[dequeue_length("testQueue")]%;\
     /test tfunit_assertEqual(0, _len, "Queue length should be 1 after initial append.")
+
+/def test_tf_util_container_Init_Resets_Dequeue = \
+    /dequeue_init testQueue%;\
+    /test dequeue_append("testQueue", "first item")%;\
+    /let _len=$[dequeue_length("testQueue")]%;\
+    /test tfunit_assertEqual(1, _len, "Queue should have one item after append.")%;\
+    /test dequeue_init("testQueue")%;\
+    /test _len := dequeue_length("testQueue")%;\
+    /test tfunit_assertEqual(0, _len, "Queue should have one item after append.")
+
+/def test_tf_util_container_Dequeue_Handles_Data_With_Spaces = \
+    /dequeue_init testQueue%;\
+    /test dequeue_append("testQueue", "first item")%;\
+    /test dequeue_append("testQueue", "second item")%;\
+    /test dequeue_append("testQueue", "third item")%;\
+    /let _next=$[dequeue_popFirst("testQueue")]%;\
+    /test tfunit_assertStrEqual("first item", _next, "popFirst should preserve spaces")%;\
+    /let _next=$[dequeue_popLast("testQueue")]%;\
+    /test tfunit_assertStrEqual("third item", _next, "popLast should preserve spaces")
 
 /def test_tf_util_container_Queue_Ordering = \
     /queue_init testQueue%;\
