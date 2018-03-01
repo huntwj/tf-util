@@ -4,11 +4,11 @@
 /loaded __tf_util_main__
 
 /require tf-util/loader.tf
-
 /require tf-util/variables.tf
 /require tf-util/events.tf
 /require tf-util/logging.tf
 /require tf-util/containers.tf
+
 /def strltrim = \
     /let _string=%{1}%;\
     /let _removeChars=%{2}%;\

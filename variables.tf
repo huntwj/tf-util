@@ -56,7 +56,7 @@
 ;
 ; Fires a change notification to all callbacks registered with /watchVar
 ;
-/def setVar = /test util_setVar({1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})
+; /def setVar = /test util_setVar({1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})
 /def setVar = /test util_setVar({1}, {-1})
 /def -i util_setVar = \
     /let _varName=%{1}%;\
@@ -74,7 +74,7 @@
     /test %{_userVarName} := _value
 
 ;
-; Convert a user-land variable name into its actual global default variable 
+; Convert a user-land variable name into its actual global default variable
 ; name.
 ;
 /def -i util_globalVarName = \

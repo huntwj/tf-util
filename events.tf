@@ -3,7 +3,7 @@
 ;;
 /loaded __tf_util_events__
 
-/load lisp.tf
+/require lisp.tf
 
 /def event_addListener = /util_addListener
 /def -i util_addListener = \
