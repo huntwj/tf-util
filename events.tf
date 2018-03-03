@@ -5,7 +5,9 @@
 
 /require lisp.tf
 
-/def event_addListener = /util_addListener
+/def event_addListener = \
+    /util_addListener
+
 /def -i util_addListener = \
     /let _event=$[textencode({1})]%;\
     /let _callback=$[textencode({2})]%;\
@@ -26,7 +28,9 @@
         /set util_event_%{_event}=%{_newVal}%;\
     /endif
 
-/def event_fire = /util_fireEvent %{*}
+/def event_fire = \
+    /util_fireEvent %{*}
+
 /def -i util_fireEvent = \
     /let _event=$[textencode({1})]%;\
     /let _params=%{-1}%;\
@@ -45,7 +49,6 @@
         /let _callback=$(/car %{_list})%;\
         /let _list=$(/cdr %{_list})%;\
         /test _callback := textdecode(_callback)%;\
-;        /%{_callback} %{_params}%;\
         /test %{_callback}(_p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8)%;\
         /let _count=$(/length %{_list})%;\
     /done
@@ -55,4 +58,3 @@
 
 /def -h"CONNECT {*}" util_t_notifyConnect = \
     /event_fire connection.connected %{*} %{P0}
-

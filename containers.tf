@@ -13,8 +13,8 @@
 ; be used interchangably. Queue and stack functions are simply ways
 ; to clarify intent.
 ;
-; Dequeues are implemented as strings with each value textencoded 
-; and separated by spaces. For search simplicity and speed, the queue 
+; Dequeues are implemented as strings with each value textencoded
+; and separated by spaces. For search simplicity and speed, the queue
 ; values should always begin and end with a space.
 ;
 ; Note that storing the empty string in any of these data structures
@@ -51,9 +51,6 @@
         /result ""%;\
     /endif%;\
     /let _endIdx=$[strstr(_queueData, " ", 1)]%;\
-;    /if (assert(_endIdx != -1, "Invalid dequeue data structure."))\
-;        /result ""%;\
-;    /endif%;\
     /let _retVal=$[textdecode(substr(_queueData, 1, _endIdx - 1))]%;\
     /let _newQueueData=$[substr(_queueData, _endIdx)]%;\
     /test setVar(_queueName, _newQueueData)%;\
@@ -67,9 +64,6 @@
         /result ""%;\
     /endif%;\
     /let _startIdx=$[strrchr(_queueData, " ", strlen(_queueData)-2)]%;\
-;    /if (assert(_endIdx != -1, "Invalid dequeue data structure."))\
-;        /result ""%;\
-;    /endif%;\
     /let _retVal=$[textdecode(substr(_queueData, _startIdx + 1, strlen(_queueData) - _startIdx - 2))]%;\
     /let _newQueueData=$[substr(_queueData, 0, _startIdx + 1)]%;\
     /test setVar(_queueName, _newQueueData)%;\
@@ -169,6 +163,4 @@
     /test tfunit_assertStrEqual("first", _next, "stacks should be first-in/first-out")%;\
     /test _next := stack_pop("teststack")
 
-
 /tfunit_endGroup
-

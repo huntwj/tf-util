@@ -11,7 +11,6 @@
     /result _val%;\
 
 /def -q redisCmd = \
-;    /echo Params: %{-1}%;\
     /let _result=$(/quote -S -decho !redis-cli %{*})%;\
     /result _result
 

@@ -25,7 +25,6 @@
     /if (_success) \
         /tfunit_assertSuccess%;\
     /else \
-;        /echo message: %{_message}%;\
         /test tfunit_assertFailed(1, 0, _message)%;\
     /endif
 
@@ -38,7 +37,6 @@
     /if (_expected =~ _observed) \
         /tfunit_assertSuccess%;\
     /else \
-;        /echo message: %{_message}%;\
         /test tfunit_assertFailed(_expected, _observed, _message)%;\
     /endif
 
@@ -51,7 +49,6 @@
     /if (_expected == _observed) \
         /tfunit_assertSuccess%;\
     /else \
-;        /echo message: %{_message}%;\
         /test tfunit_assertFailed(_expected, _observed, _message)%;\
     /endif
 
@@ -120,7 +117,6 @@
     /test setVar("tfunit.currentTest.failMessages", "")
 
 /def -i tfunit_dumpReasons = \
-;    /echo Reasons: %{*}%;\
     /while ({#}) \
         /let _reason=$[textdecode({1})]%;\
         /test echo(strcat("             - ", _reason))%;\

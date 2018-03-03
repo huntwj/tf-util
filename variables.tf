@@ -104,7 +104,7 @@
         /util_unset $(/listvar -mregexp -s ^var_user_)%;\
         /test tfclose(_handle)%;\
         /load -q %{_filename}%;\
-        /test event_fire("var.loaded", {1}, {_filename}%;\
+        /test event_fire("var.loaded", {1}, {_filename})%;\
         /echo Loaded user variables from '%{_filename}'%;\
     /else \
         /echo Could not open file '%{_filename}'. Load aborted.%;\
@@ -120,7 +120,7 @@
 /def -i util_saveVars = \
     /let _filename=$[util_customVarFilename({1})]%;\
     /listvar -mregexp ^var_user_ %| /writefile %{_filename}%;\
-    /test event_fire("var.saved", {1}, {_filename}%;\
+    /test event_fire("var.saved", {1}, {_filename})%;\
     /echo Saved user variables into '%{_filename}'
 
 ;
@@ -145,7 +145,7 @@
 /def isSet = /return util_isSet({1})
 /def -i util_isSet = \
     /let _varName=%{1}%;\
-    /let _results=$(/listvar -msimple -s %_varName)%;\
+    /let _results=$(/listvar -msimple -s %{_varName})%;\
     /return _results !~ ""
 
 ;
